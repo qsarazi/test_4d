@@ -12,10 +12,13 @@ class Dictionary {
 public:
     explicit Dictionary(const std::string &file);
 
-    bool Verify(const std::string &word, std::vector<std::string> *suggestion) const;
-
+    bool Verify(std::string word, std::vector<std::string> *suggestion) const;
 private:
+    static unsigned int LevenshteinDistance(const std::string &a, const std::string &b);
+    static unsigned min(unsigned int a, unsigned int b, unsigned int c);
+
     std::vector<std::string> _dict;
+    std::vector<unsigned int> _l_distances;
 };
 
 

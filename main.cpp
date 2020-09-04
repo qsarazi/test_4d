@@ -4,6 +4,7 @@
 
 #include "Dictionary.h"
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
@@ -49,12 +50,22 @@ int main(int ac, char **av) {
         ifstream in{av[2]};
 
         while (getline(in, text)) {
-            cout << text << endl;
             vector<Token> tokens = StringToToken(text);
             for (auto &&t : tokens) {
+
+                //Skip all uppercase words
+                if (all_of(t.word.begin(), t.word.end(), [](char c) {return isupper(c);}))
+                    continue;
+
+                cout << t.word << endl;
                 if (!dict.Verify(t.word, &suggestions)) {
+                    for (auto &&s : suggestions) {
+                        cout << "  " << s << endl;
+                    }
+                    //check first caps
                     //add to json
                 }
+                cout << endl;
             }
         }
 
@@ -63,6 +74,7 @@ int main(int ac, char **av) {
         return 2;
     }
 
-    //print the json
+    //use json to correct
+    //print
     return 0;
 }
